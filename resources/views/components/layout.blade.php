@@ -12,21 +12,21 @@
 
 <body class="bg-gray-900 text-white">
     <header class="border-b border-gray-800">
-        <div class="container mx-auto flex items-center justify-between px-4 py-6">
-            <div class="flex items-center">
-                <a href="/">
+        <nav class="container mx-auto flex flex-col lg:flex-row items-center justify-between px-4 py-6">
+            <div class="flex flex-col lg:flex-row items-center">
+                <a class="mt-3 lg:mt-0" href="/">
                     <h3 class="font-bold">Video Game Aggregator</h3>
                 </a>
-                <ul class="flex ml-16 space-x-4">
+                <ul class="flex ml-0 lg:ml-16 space-x-4 mt-3 lg:mt-0">
                     <li><a href="#" class="hover:text-gray-400">Games</a></li>
                     <li><a href="#" class="hover:text-gray-400">Reviews</a></li>
                     <li><a href="#" class="hover:text-gray-400">Coming Soon</a></li>
                 </ul>
             </div>
-            <div class="flex items-center">
+            <div class="flex items-center mt-3 lg:mt-0">
                 <div class="relative">
                     <input type="text"
-                        class="bg-gray-800 text-sm w-64 focus:outline-none focus:shadow-outline rounded-full pl-8 px-3 py-1"
+                        class="bg-gray-800 text-sm w-56 md:w-64 focus:outline-none focus:shadow-outline rounded-full pl-8 px-3 py-1"
                         placeholder="Search...">
                     <div class="absolute top-0 flex item-center h-full ml-2">
                         <svg class="fill-current text-gray-400 w-4" viewBox="0 0 24 24">
@@ -39,7 +39,7 @@
                     <a href="/"><img src="{{asset('img/marco.jpg')}}" alt="avatar" class="rounded-full w-8 h-8"></a>
                 </div>
             </div>
-        </div>
+        </nav>
     </header>
 
     <main class="py-4">

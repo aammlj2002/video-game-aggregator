@@ -1,7 +1,8 @@
 <x-layout>
     <h2 class="text-blue-500 tracking-wide uppercase font-semibold ">Popular Games</h2>
     {{-- end popular game section --}}
-    <div class="popular-game text-sm grid grid-cols-6 gap-12 border-b border-gray-800 pb-16">
+    <div
+        class="popular-game text-sm grid grid-cols-2 lg:grid-cols-5 xl:grid-cols-6 gap-12 border-b border-gray-800 pb-16">
         @foreach (range(1,9) as $item)
         <div class="game mt-8">
             <div class="relative inline-block">
@@ -24,8 +25,8 @@
     </div>{{-- end popular game section --}}
 
     {{-- review section section --}}
-    <div class="flex my-10">
-        <div class="recent-review w-3/4 mr-32">
+    <div class="flex flex-col lg:flex-row my-10">
+        <div class="recent-review w-full lg:w-3/4 mr:0 lg:mr-32">
             <div class="text-blue-500 uppercase tracking-wide font-semibold">
                 Recent Reviewed
             </div>
@@ -52,7 +53,7 @@
                         <div class="mt-6 text-gray-400">
                             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestiae itaque assumenda
                             officiis facilis, nulla eligendi, deleniti dolorum fugit, eaque tempora vitae. Officiis
-                            laboriosam doloremque nesciunt molestiae eaque veniam aut omnis.
+                            laboriosam doloremque nesciunt molestiae eaque veniam aut omnis. lorem
                         </div>
                     </div>
                 </div>
@@ -60,7 +61,7 @@
                 @endforeach
             </div>
         </div>
-        <div class="most-anticipated w-1/4">
+        <div class="most-anticipated w-full lg:w-1/4 mt-8 lg:mt-0">
 
             {{-- most-anticipated section --}}
             <div class="text-blue-500 uppercase tracking-wide font-semibold">
