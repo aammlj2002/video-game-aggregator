@@ -1,10 +1,10 @@
 <x-layout>
     {{-- Game detail --}}
-    <div class="game-detail border-b border-gray-800 pb-12 flex">
-        <div class="flex-none">
+    <div class="game-detail border-b border-gray-800 pb-12 flex flex-col lg:flex-row">
+        <div class="flex-none mb-4 lg-mb-0">
             <img class="w-72" src="{{asset('img/ff7.jpg')}}" alt="game">
         </div>
-        <div class="ml-12 mr-64">
+        <div class="lg:ml-12 lg:mr-64 mx-0">
             <div class="font-semibold text-4xl">Final Fantasy 4 Remake</div>
             <div class="text-gray-400">
                 <span>Aventure, RPG</span>
@@ -20,13 +20,13 @@
                     </div>
                     <div class="ml-4 text-xs">Member <br> Score</div>
                 </div>
-                <div class="flex items-center">
+                <div class="flex items-center mr-5">
                     <div class="w-16 h-16 bg-gray-800 rounded-full ml-12">
                         <div class="font-semibold text-xs flex justify-center items-center h-full">92%</div>
                     </div>
                     <div class="ml-4 text-xs">Critic <br> Score</div>
                 </div>
-                <div class="flex items-center space-x-4 ml-12">
+                <div class="flex items-center space-x-4 mt-2 lg:mt-0 ml-0 lg:ml-12">
                     <div class="w-8 h-8 bg-gray-800 rounded-full flex justify-center items-center">
                         <a href="#" class="hover:text-gray-400">
                             <svg class="w-5 h-5 fill-current" viewBox="0 0 16 17" fill="none">
@@ -92,7 +92,7 @@
     {{-- images container --}}
     <div class="images-container border-b border-gray-800 pb-12 my-8">
         <div class="text-blue-500 uppercase tracking-wide font-semibold">Images</div>
-        <div class="grid grid-cols-3 gap-12 mt-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-8">
             @foreach (range(1,6) as $item)
             <div>
                 <a href="#">
