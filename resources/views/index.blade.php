@@ -3,23 +3,32 @@
     {{-- end popular game section --}}
     <div
         class="popular-game text-sm grid grid-cols-2 lg:grid-cols-5 xl:grid-cols-6 gap-12 border-b border-gray-800 pb-16">
-        @foreach (range(1,9) as $item)
+        @foreach ($popularGames as $game)
         <div class="game mt-8">
             <div class="relative inline-block">
                 <a href="#">
-                    <img src="{{asset('img/ff7.jpg')}}" alt="game"
-                        class="w-48 hover:opacity-75 trasition ease-in-out duration-150">
+                    <img src="{{ Str::replaceFirst('thumb', 'cover_big' , isset($game['cover']) ? $game['cover']['url'] : asset('img/default.png') ) }}"
+                        alt="game" class="w-48 hover:opacity-75 trasition ease-in-out duration-150">
                 </a>
+
+                @if (isset($game['rating']))
                 <div class="absolute bottom-0 right-0 w-16 h-16 bg-gray-800 rounded-full"
                     style="right:-20px; bottom:-20px">
                     <div class="font-semibold text-xs flex justify-center items-center h-full">
-                        88%
+                        {{round($game['rating'])}}%
                     </div>
                 </div>
+                @endif
             </div>
-            <a href="" class="block text-base font-semibold leading-light hover:text-gray-400 mt-8">Final Fantasy 7
-                Remake</a>
-            <div class="text-gray-400 mt-1">Playstation 4</div>
+            <a href=""
+                class="block text-base font-semibold leading-light hover:text-gray-400 mt-8">{{$game['name']}}</a>
+            <div class="text-gray-400 mt-1">
+                @foreach ($game['platforms'] as $platform)
+                @if (array_key_exists("abbreviation", $platform))
+                {{$platform['abbreviation']}},
+                @endif
+                @endforeach
+            </div>
         </div>
         @endforeach
     </div>{{-- end popular game section --}}
@@ -31,29 +40,35 @@
                 Recent Reviewed
             </div>
             <div class="recently-reviewed-container space-y-12 mt-8">
-                @foreach (range(1,4) as $item)
+                @foreach ($recentlyReviewed as $game)
                 {{-- game review card --}}
                 <div class="game bg-gray-800 rounded-lg shadow-md flex p-6">
                     <div class="relative flex-none">
                         <a href="#">
-                            <img src="{{asset('img/ff7.jpg')}}" alt="game"
-                                class="w-48 hover:opacity-75 trasition ease-in-out duration-150">
+                            <img src="{{ Str::replaceFirst('thumb', 'cover_big' , isset($game['cover']) ? $game['cover']['url'] : asset('img/default.png') ) }}"
+                                alt="game" class="w-48 hover:opacity-75 trasition ease-in-out duration-150">
                         </a>
+                        @if (isset($game['rating']))
                         <div class="absolute bottom-0 right-0 w-16 h-16 bg-gray-900 rounded-full"
                             style="right:-20px; bottom:-20px">
                             <div class="font-semibold text-xs flex justify-center items-center h-full">
-                                88%
+
+                                {{round($game['rating'])}}%
                             </div>
                         </div>
+                        @endif
                     </div>
                     <div class="ml-12">
-                        <a href="" class="block text-base font-semibold leading-light hover:text-gray-400">Final
-                            Fantasy 7 Remake</a>
-                        <div class="text-gray-400 mt-1">Playstation 4</div>
+                        <a href="" class="block text-base font-semibold leading-light hover:text-gray-400">
+                            {{$game['name']}}
+                        </a>
+                        <div class="text-gray-400 mt-1">@foreach ($game['platforms'] as $platform)
+                            @if (array_key_exists("abbreviation", $platform))
+                            {{$platform['abbreviation']}},
+                            @endif
+                            @endforeach</div>
                         <div class="mt-6 text-gray-400">
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestiae itaque assumenda
-                            officiis facilis, nulla eligendi, deleniti dolorum fugit, eaque tempora vitae. Officiis
-                            laboriosam doloremque nesciunt molestiae eaque veniam aut omnis. lorem
+                            {{$game["summary"]}}
                         </div>
                     </div>
                 </div>
@@ -70,15 +85,16 @@
             <div class="most-anticipated-container space-y-10 mt-5">
 
                 {{-- most-anticipated game card --}}
-                @foreach (range(1,4) as $item)
+                @foreach ($mostAnticipated as $game)
                 <div class="game flex">
                     <a href="#">
-                        <img src="{{asset('img/ff7.jpg')}}" alt="game"
-                            class="w-16 hover:opacity-75 trasition ease-in-out duration-150">
+                        <img src="{{ Str::replaceFirst('thumb', 'cover_small' , isset($game['cover']) ? $game['cover']['url'] : asset('img/default.png') ) }}"
+                            alt="game" class="w-16 hover:opacity-75 trasition ease-in-out duration-150">
                     </a>
                     <div class="ml-4">
-                        <a href="#" class="hover:text-gray-300">Final Fantasy 7 Remake</a>
-                        <div class="text-gray-400 text-sm mt-1">Sept 16, 2020</div>
+                        <a href="#" class="hover:text-gray-300">{{$game['name']}}</a>
+                        <div class="text-gray-400 text-sm mt-1">
+                            {{Carbon\Carbon::parse($game['first_release_date'])->format("M d, Y")}}</div>
                     </div>
                 </div>
                 @endforeach
@@ -93,15 +109,16 @@
             <div class="most-anticipated-container space-y-10 mt-5">
 
                 {{-- coming soon game card --}}
-                @foreach (range(1,4) as $item)
+                @foreach ($commingSoon as $game)
                 <div class="game flex">
                     <a href="#">
-                        <img src="{{asset('img/ff7.jpg')}}" alt="game"
-                            class="w-16 hover:opacity-75 trasition ease-in-out duration-150">
+                        <img src="{{ Str::replaceFirst('thumb', 'cover_small' , isset($game['cover']) ? $game['cover']['url'] : asset('img/default.png') ) }}"
+                            alt="game" class="w-16 hover:opacity-75 trasition ease-in-out duration-150">
                     </a>
                     <div class="ml-4">
-                        <a href="#" class="hover:text-gray-300">Final Fantasy 7 Remake</a>
-                        <div class="text-gray-400 text-sm mt-1">Sept 16, 2020</div>
+                        <a href="#" class="hover:text-gray-300">{{$game['name']}}</a>
+                        <div class="text-gray-400 text-sm mt-1">
+                            {{Carbon\Carbon::parse($game['first_release_date'])->format("M d, Y")}}</div>
                     </div>
                 </div>{{-- end coming soon game card --}}
                 @endforeach
