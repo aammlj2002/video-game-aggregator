@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;
+use Illuminate\Support\Str;
 
 class RecentlyReviewed extends Component
 {
@@ -15,7 +16,7 @@ class RecentlyReviewed extends Component
         $before = Carbon::now()->subMonths(2)->timestamp;
         $current = Carbon::now()->timestamp;
 
-        $this->recentlyReviewed = Cache::remember('rentently-reviewed', 100, function () use($before, $current){ 
+        $recentlyReviewedUnformatted = Cache::remember('rentently-reviewed', 100, function () use($before, $current){ 
             return Http::withHeaders(config("services.igdb"))
                 ->withBody(
                 "
@@ -32,6 +33,18 @@ class RecentlyReviewed extends Component
                 "text/plain"
             )->post("https://api.igdb.com/v4/games")->json();
         });
+        $this->recentlyReviewed = $this->formatForView($recentlyReviewedUnformatted);
+    }
+    public function formatForView($game)
+    {
+        return collect($game)->map(function($game){
+            return collect($game)->merge([
+                "coverImage"=>Str::replaceFirst('thumb', 'cover_big' , isset($game['cover']) ? $game['cover']['url'] : asset('img/default.png') ),
+                "rating"=>isset($game['rating']) ? round($game['rating']).'%' : null, 
+                "platforms"=>isset($game["platforms"]) ? collect($game['platforms'])->implode("abbreviation", ", ") : null,
+                "summary"=>isset($game['summary']) ? $game['summary'] : null
+            ]);
+        })->toArray();
     }
     public function render()
     {

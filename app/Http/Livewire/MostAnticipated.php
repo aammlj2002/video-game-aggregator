@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;
+use Illuminate\Support\Str;
 
 class MostAnticipated extends Component
 {
@@ -15,7 +16,7 @@ class MostAnticipated extends Component
         $before = Carbon::now()->subMonths(2)->timestamp;
         $afterFourMonths = Carbon::now()->addMonths(4)->timestamp;
 
-        $this->mostAnticipated = Cache::remember('most-anticipated', 100, function () use($before, $afterFourMonths){
+        $mostAnticipatedUnformatted = Cache::remember('most-anticipated', 100, function () use($before, $afterFourMonths){
            return Http::withHeaders(config("services.igdb"))
                 ->withBody(
                 "
@@ -30,6 +31,16 @@ class MostAnticipated extends Component
                 ",
                 "text/plain"
             )->post("https://api.igdb.com/v4/games")->json();
+        });
+        $this->mostAnticipated = $this->formatForView($mostAnticipatedUnformatted);
+    }
+    public function formatForView($game)
+    {
+        return collect($game)->map(function($game){
+            return collect($game)->merge([
+                "coverImage"=>Str::replaceFirst('thumb', 'cover_small' , isset($game['cover']) ? $game['cover']['url'] : asset('img/default.png') ),
+                "first_release_date"=>Carbon::parse($game['first_release_date'])->format("M d, Y")
+            ]);
         });
     }
     public function render()

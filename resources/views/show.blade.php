@@ -2,47 +2,41 @@
     {{-- Game detail --}}
     <div class="game-detail border-b border-gray-800 pb-12 flex flex-col lg:flex-row">
         <div class="flex-none mb-4 lg-mb-0">
-            <img class="w-72"
-                src="{{ Str::replaceFirst('thumb', 'cover_big' , isset($game['cover']) ? $game['cover']['url'] : asset('img/default.png') ) }}"
-                alt="game">
+            <img class="w-72" src="{{ $game['coverImage'] }}" alt="game">
         </div>
         <div class="lg:ml-12 lg:mr-64 mx-0">
             <div class="font-semibold text-4xl">{{$game['name']}}</div>
             <div class="text-gray-400">
 
-                @if (array_key_exists("genres", $game))
+                @if ($game["genres"])
                 <div>
                     <span>Genres &dash; </span>
-                    @foreach ($game['genres'] as $genre)
-                    <span>{{$genre['name']}},</span>
-                    @endforeach
+                    <span>{{$game["genres"]}},</span>
                 </div>
                 @endif
 
-                @if (array_key_exists("involved_companies", $game))
+                @if ( $game["companies"] )
                 <div>
-                    <span>Involved Company &dash; </span>
-                    @foreach ($game['involved_companies'] as $involvedCompany)
-                    <span>{{$involvedCompany['company']['name']}},</span>
-                    @endforeach
+                    <span>Company &dash; </span>
+                    <span>{{$game["companies"]}}</span>
                 </div>
                 @endif
 
-                @if (array_key_exists("platforms", $game))
+                @if ( $game["platforms"] )
                 <div>
                     <span>Platforms &dash; </span>
-                    @foreach ($game['platforms'] as $plarform)
-                    <span>{{$plarform['abbreviation']}},</span>
-                    @endforeach
+                    <span>{{$game["platforms"]}}</span>
                 </div>
                 @endif
             </div>
+
             <div class="flex flex-wrap item-center mt-8">
+                {{-- ratings --}}
                 <div class="flex items-center">
                     <div class="w-16 h-16 bg-gray-800 rounded-full">
                         <div class="font-semibold text-xs flex justify-center items-center h-full">
-                            @if (array_key_exists("rating", $game))
-                            {{round($game['rating'])}}&percnt;
+                            @if ($game["rating"])
+                            {{$game["rating"]}}
                             @else
                             0&percnt;
                             @endif
@@ -53,8 +47,8 @@
                 <div class="flex items-center mr-5">
                     <div class="w-16 h-16 bg-gray-800 rounded-full ml-12">
                         <div class="font-semibold text-xs flex justify-center items-center h-full">
-                            @if (array_key_exists("aggregated_rating", $game))
-                            {{round($game['aggregated_rating'])}}&percnt;
+                            @if ($game["aggregated_rating"])
+                            {{$game["aggregated_rating"]}}
                             @else
                             0&percnt;
                             @endif
@@ -62,6 +56,8 @@
                     </div>
                     <div class="ml-4 text-xs">Critic <br> Score</div>
                 </div>
+
+                {{-- links --}}
                 <div class="flex items-center space-x-4 mt-2 lg:mt-0 ml-0 lg:ml-12">
                     <div class="w-8 h-8 bg-gray-800 rounded-full flex justify-center items-center">
                         <a href="#" class="hover:text-gray-400">
@@ -104,9 +100,9 @@
                     </div>
                 </div>
                 <div class="mt-12">{{$game['summary']}}</div>
-                @if (array_key_exists("videos", $game))
+                @if ($game['video'])
                 <div class="mt-12">
-                    <a href="https://youtube.com/watch/{{$game['videos'][0]['video_id']}}"
+                    <a href="https://youtube.com/watch/{{$game['video']}}"
                         class="flex bg-blue-500 text-white font-semibold p-4 hover:bg-blue-600 rounded transition ease-in-out duration-150">
                         <svg class="w-6 fill-current" viewBox="0 0 24 24">
                             <path d="M0 0h24v24H0z" fill="none"></path>
@@ -128,8 +124,8 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-8">
             @foreach ($game['screenshots'] as $screenshot)
             <div>
-                <a href="{{ Str::replaceFirst('thumb', 'screenshot_huge', $screenshot['url'] ) }}">
-                    <img src="{{ Str::replaceFirst('thumb', 'screenshot_big', $screenshot['url'] ) }}" alt="image"
+                <a href="/{{$screenshot['huge']}} ">
+                    <img src="{{ $screenshot['big'] }}" alt="image"
                         class="hover:opacity-75 transition ease-in-out duration-150">
                 </a>
             </div>
@@ -145,14 +141,14 @@
             <div class="game mt-8">
                 <div class="relative inline-block">
                     <a href="/games/{{$game['slug']}}">
-                        <img src="{{ Str::replaceFirst('thumb', 'cover_big' , isset($game['cover']) ? $game['cover']['url'] : asset('img/default.png') ) }}"
-                            alt="game" class="w-48 hover:opacity-75 trasition ease-in-out duration-150">
+                        <img src="{{ $game['coverImage'] }}" alt="game"
+                            class="w-48 hover:opacity-75 trasition ease-in-out duration-150">
                     </a>
                     @if (isset($game['rating']))
                     <div class="absolute bottom-0 right-0 w-16 h-16 bg-gray-800 rounded-full"
                         style="right:-20px; bottom:-20px">
                         <div class="font-semibold text-xs flex justify-center items-center h-full">
-                            {{round($game['rating'])}}%
+                            {{$game['rating']}}
                         </div>
                     </div>
                     @endif
@@ -160,9 +156,7 @@
                 <a href="/games/{{$game['slug']}}"
                     class="block text-base font-semibold leading-light hover:text-gray-400 mt-8">{{$game["name"]}}</a>
                 <div class="text-gray-400 mt-1">
-                    @foreach ($game['platforms'] as $platform)
-                    <span>{{$platform["abbreviation"]}},</span>
-                    @endforeach
+                    <span>{{$game["platforms"]}},</span>
                 </div>
             </div>
             @endforeach

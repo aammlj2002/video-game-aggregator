@@ -7,32 +7,30 @@
         <div class="game mt-8">
             <div class="relative inline-block">
                 <a href="/games/{{$game['slug']}}">
-                    <img src="{{ Str::replaceFirst('thumb', 'cover_big' , isset($game['cover']) ? $game['cover']['url'] : asset('img/default.png') ) }}"
-                        alt="game" class="w-48 hover:opacity-75 trasition ease-in-out duration-150">
+                    <img src="{{ $game['coverImage'] }}" alt="game"
+                        class="w-48 hover:opacity-75 trasition ease-in-out duration-150">
                 </a>
 
-                @if (isset($game['rating']))
+                @if ($game['rating'])
                 <div class="absolute bottom-0 right-0 w-16 h-16 bg-gray-800 rounded-full"
                     style="right:-20px; bottom:-20px">
                     <div class="font-semibold text-xs flex justify-center items-center h-full">
-                        {{round($game['rating'])}}%
+                        {{($game['rating'])}}
                     </div>
                 </div>
                 @endif
             </div>
-            <a href=""
+            <a href="/games/{{$game['slug']}}"
                 class="block text-base font-semibold leading-light hover:text-gray-400 mt-8">{{$game['name']}}</a>
+            @if ($game["platforms"])
             <div class="text-gray-400 mt-1">
-                @foreach ($game['platforms'] as $platform)
-                @if (array_key_exists("abbreviation", $platform))
-                {{$platform['abbreviation']}},
-                @endif
-                @endforeach
+                {{$game["platforms"]}}
             </div>
+            @endif
         </div>
         @empty
 
-        {{-- skeleton loader --}}
+        {{-- skeleton --}}
         @foreach (range(1,12) as $item)
         <div class="game mt-8">
             <div class="inline-block">

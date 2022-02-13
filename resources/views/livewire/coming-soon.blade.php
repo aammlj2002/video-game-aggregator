@@ -9,13 +9,16 @@
         @forelse ($comingSoon as $game)
         <div class="game flex">
             <a href="#">
-                <img src="{{ Str::replaceFirst('thumb', 'cover_small' , isset($game['cover']) ? $game['cover']['url'] : asset('img/default.png') ) }}"
-                    alt="game" class="w-16 hover:opacity-75 trasition ease-in-out duration-150">
+                <img src="{{ $game['coverImage'] }}" alt="game"
+                    class="w-16 hover:opacity-75 trasition ease-in-out duration-150">
             </a>
             <div class="ml-4">
                 <a href="#" class="hover:text-gray-300">{{$game['name']}}</a>
+                @if ( $game['first_release_date'] )
                 <div class="text-gray-400 text-sm mt-1">
-                    {{Carbon\Carbon::parse($game['first_release_date'])->format("M d, Y")}}</div>
+                    {{ $game['first_release_date'] }}
+                </div>
+                @endif
             </div>
         </div>
         @empty
