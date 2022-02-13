@@ -20,6 +20,7 @@
         </div>
         @empty
 
+        {{-- skeleton loader --}}
         @foreach (range(4,1) as $item)
         <div class="game flex">
             <div class="bg-gray-800 w-16 h-20"></div>

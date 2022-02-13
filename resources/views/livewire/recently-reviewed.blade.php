@@ -25,19 +25,24 @@
                 <a href="" class="block text-base font-semibold leading-light hover:text-gray-400">
                     {{$game['name']}}
                 </a>
-                <div class="text-gray-400 mt-1">@foreach ($game['platforms'] as $platform)
+                <div class="text-gray-400 mt-1">
+                    @foreach ($game['platforms'] as $platform)
                     @if (array_key_exists("abbreviation", $platform))
                     {{$platform['abbreviation']}},
                     @endif
-                    @endforeach</div>
+                    @endforeach
+                </div>
+                @if (array_key_exists("summary", $game))
                 <div class="mt-6 text-gray-400">
                     {{$game["summary"]}}
                 </div>
+                @endif
             </div>
         </div>
         {{-- end game review card --}}
         @empty
 
+        {{-- skeleton loader --}}
         @foreach (range(1,3) as $item)
         <div class="game bg-gray-800 rounded-lg shadow-md flex p-6">
             <div class="relative flex-none">

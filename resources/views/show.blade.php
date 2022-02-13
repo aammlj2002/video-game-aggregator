@@ -2,27 +2,63 @@
     {{-- Game detail --}}
     <div class="game-detail border-b border-gray-800 pb-12 flex flex-col lg:flex-row">
         <div class="flex-none mb-4 lg-mb-0">
-            <img class="w-72" src="{{asset('img/ff7.jpg')}}" alt="game">
+            <img class="w-72"
+                src="{{ Str::replaceFirst('thumb', 'cover_big' , isset($game['cover']) ? $game['cover']['url'] : asset('img/default.png') ) }}"
+                alt="game">
         </div>
         <div class="lg:ml-12 lg:mr-64 mx-0">
-            <div class="font-semibold text-4xl">Final Fantasy 4 Remake</div>
+            <div class="font-semibold text-4xl">{{$game['name']}}</div>
             <div class="text-gray-400">
-                <span>Aventure, RPG</span>
-                &middot;
-                <span>Square Enix</span>
-                &middot;
-                <span>Playstation 4</span>
+
+                @if (array_key_exists("genres", $game))
+                <div>
+                    <span>Genres &dash; </span>
+                    @foreach ($game['genres'] as $genre)
+                    <span>{{$genre['name']}},</span>
+                    @endforeach
+                </div>
+                @endif
+
+                @if (array_key_exists("involved_companies", $game))
+                <div>
+                    <span>Involved Company &dash; </span>
+                    @foreach ($game['involved_companies'] as $involvedCompany)
+                    <span>{{$involvedCompany['company']['name']}},</span>
+                    @endforeach
+                </div>
+                @endif
+
+                @if (array_key_exists("platforms", $game))
+                <div>
+                    <span>Platforms &dash; </span>
+                    @foreach ($game['platforms'] as $plarform)
+                    <span>{{$plarform['abbreviation']}},</span>
+                    @endforeach
+                </div>
+                @endif
             </div>
             <div class="flex flex-wrap item-center mt-8">
                 <div class="flex items-center">
                     <div class="w-16 h-16 bg-gray-800 rounded-full">
-                        <div class="font-semibold text-xs flex justify-center items-center h-full">92%</div>
+                        <div class="font-semibold text-xs flex justify-center items-center h-full">
+                            @if (array_key_exists("rating", $game))
+                            {{round($game['rating'])}}&percnt;
+                            @else
+                            0&percnt;
+                            @endif
+                        </div>
                     </div>
                     <div class="ml-4 text-xs">Member <br> Score</div>
                 </div>
                 <div class="flex items-center mr-5">
                     <div class="w-16 h-16 bg-gray-800 rounded-full ml-12">
-                        <div class="font-semibold text-xs flex justify-center items-center h-full">92%</div>
+                        <div class="font-semibold text-xs flex justify-center items-center h-full">
+                            @if (array_key_exists("aggregated_rating", $game))
+                            {{round($game['aggregated_rating'])}}&percnt;
+                            @else
+                            0&percnt;
+                            @endif
+                        </div>
                     </div>
                     <div class="ml-4 text-xs">Critic <br> Score</div>
                 </div>
@@ -67,14 +103,10 @@
                         </a>
                     </div>
                 </div>
+                <div class="mt-12">{{$game['summary']}}</div>
+                @if (array_key_exists("videos", $game))
                 <div class="mt-12">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex odit sapiente error molestiae. Libero,
-                    autem voluptatem cum, consequatur eius corrupti quidem obcaecati quae harum necessitatibus dicta
-                    iste maxime nulla? Rerum sint repellendus eum? Rerum, ex, voluptatibus accusantium maxime qui
-                    voluptates voluptatum facere reiciendis eligendi amet odio commodi et modi nihil!
-                </div>
-                <div class="mt-12">
-                    <div
+                    <a href="https://youtube.com/watch/{{$game['videos'][0]['video_id']}}"
                         class="flex bg-blue-500 text-white font-semibold p-4 hover:bg-blue-600 rounded transition ease-in-out duration-150">
                         <svg class="w-6 fill-current" viewBox="0 0 24 24">
                             <path d="M0 0h24v24H0z" fill="none"></path>
@@ -83,8 +115,9 @@
                             </path>
                         </svg>
                         <span class="ml-2">Play Trailer</span>
-                    </div>
+                    </a>
                 </div>
+                @endif
             </div>
         </div>
     </div>{{-- end Game detail --}}
@@ -93,10 +126,10 @@
     <div class="images-container border-b border-gray-800 pb-12 my-8">
         <div class="text-blue-500 uppercase tracking-wide font-semibold">Images</div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-8">
-            @foreach (range(1,6) as $item)
+            @foreach ($game['screenshots'] as $screenshot)
             <div>
-                <a href="#">
-                    <img src="{{asset('img/ff7.jpg')}}" alt="image"
+                <a href="{{ Str::replaceFirst('thumb', 'screenshot_huge', $screenshot['url'] ) }}">
+                    <img src="{{ Str::replaceFirst('thumb', 'screenshot_big', $screenshot['url'] ) }}" alt="image"
                         class="hover:opacity-75 transition ease-in-out duration-150">
                 </a>
             </div>
@@ -108,23 +141,29 @@
     <div class="similar-game-container pb-4 my-8">
         <div class="text-blue-500 uppercase tracking-wide font-semibold">Similar Game</div>
         <div class="popular-game text-sm grid grid-cols-2 lg:grid-cols-5 xl:grid-cols-6 gap-12">
-            @foreach (range(1,6) as $item)
+            @foreach ($game["similar_games"] as $game)
             <div class="game mt-8">
                 <div class="relative inline-block">
-                    <a href="#">
-                        <img src="{{asset('img/ff7.jpg')}}" alt="game"
-                            class="w-48 hover:opacity-75 trasition ease-in-out duration-150">
+                    <a href="/games/{{$game['slug']}}">
+                        <img src="{{ Str::replaceFirst('thumb', 'cover_big' , isset($game['cover']) ? $game['cover']['url'] : asset('img/default.png') ) }}"
+                            alt="game" class="w-48 hover:opacity-75 trasition ease-in-out duration-150">
                     </a>
+                    @if (isset($game['rating']))
                     <div class="absolute bottom-0 right-0 w-16 h-16 bg-gray-800 rounded-full"
                         style="right:-20px; bottom:-20px">
                         <div class="font-semibold text-xs flex justify-center items-center h-full">
-                            88%
+                            {{round($game['rating'])}}%
                         </div>
                     </div>
+                    @endif
                 </div>
-                <a href="" class="block text-base font-semibold leading-light hover:text-gray-400 mt-8">Final Fantasy 7
-                    Remake</a>
-                <div class="text-gray-400 mt-1">Playstation 4</div>
+                <a href="/games/{{$game['slug']}}"
+                    class="block text-base font-semibold leading-light hover:text-gray-400 mt-8">{{$game["name"]}}</a>
+                <div class="text-gray-400 mt-1">
+                    @foreach ($game['platforms'] as $platform)
+                    <span>{{$platform["abbreviation"]}},</span>
+                    @endforeach
+                </div>
             </div>
             @endforeach
         </div>

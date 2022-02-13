@@ -6,7 +6,7 @@
         @forelse ($popularGames as $game)
         <div class="game mt-8">
             <div class="relative inline-block">
-                <a href="#">
+                <a href="/games/{{$game['slug']}}">
                     <img src="{{ Str::replaceFirst('thumb', 'cover_big' , isset($game['cover']) ? $game['cover']['url'] : asset('img/default.png') ) }}"
                         alt="game" class="w-48 hover:opacity-75 trasition ease-in-out duration-150">
                 </a>
@@ -32,6 +32,7 @@
         </div>
         @empty
 
+        {{-- skeleton loader --}}
         @foreach (range(1,12) as $item)
         <div class="game mt-8">
             <div class="inline-block">
