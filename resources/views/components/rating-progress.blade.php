@@ -1,33 +1,83 @@
+{{-- <div>
+    <script>
+        @if ($event)
+            Livewire.on('gameWithRating', param => {
+        @endif 
+
+            @if ($event)
+            var container = document.getElementById( param.slug );
+            @else
+            var container = document.getElementById( @js($slug) );
+            @endif
+            var bar = new ProgressBar.Circle(container, {
+                color: 'white',
+                strokeWidth: 6,
+                trailWidth: 3,
+                trailColor: "#4A5568",
+                easing: 'easeInOut',
+                duration: 2500,
+                text: {
+                    autoStyleContainer: false
+                },
+                from: { color: '#48BB78', width: 6 },
+                to: { color: '#48BB78', width: 6 },
+                step: function(state, circle) {
+                    circle.path.setAttribute('stroke', state.color);
+                    circle.path.setAttribute('stroke-width', state.width);
+
+                    var value = Math.round(circle.value() * 100);
+                    if (value === 0) {
+                        circle.setText('0%');
+                    } else {
+                        circle.setText(value+"%");
+                    }
+
+                }
+            });
+
+            @if ($event)
+                bar.animate(1.0);
+            @else
+                bar.animate(@js($rating)/100); 
+            @endif
+        @if ($event)
+        })
+        @endif 
+    </script>
+</div> --}}
+
+
 <div>
     {{-- @dd($slug) --}}
     <script>
-        var container = document.getElementById( @js($slug) );
-        var bar = new ProgressBar.Circle(container, {
-            color: 'white',
-            strokeWidth: 6,
-            trailWidth: 3,
-            trailColor: "#4A5568",
-            easing: 'easeInOut',
-            duration: 2500,
-            text: {
-                autoStyleContainer: false
-            },
-            from: { color: '#48BB78', width: 6 },
-            to: { color: '#48BB78', width: 6 },
-            step: function(state, circle) {
-                circle.path.setAttribute('stroke', state.color);
-                circle.path.setAttribute('stroke-width', state.width);
+        window.livewire.on(@js($event), param => {            
+            var container = document.getElementById( param.slug );
+            var bar = new ProgressBar.Circle(container, {
+                color: 'white',
+                strokeWidth: 6,
+                trailWidth: 3,
+                trailColor: "#4A5568",
+                easing: 'easeInOut',
+                duration: 2500,
+                text: {
+                    autoStyleContainer: false
+                },
+                from: { color: '#48BB78', width: 6 },
+                to: { color: '#48BB78', width: 6 },
+                step: function(state, circle) {
+                    circle.path.setAttribute('stroke', state.color);
+                    circle.path.setAttribute('stroke-width', state.width);
 
-                var value = Math.round(circle.value() * 100);
-                if (value === 0) {
-                    circle.setText('0%');
-                } else {
-                    circle.setText(value+"%");
+                    var value = Math.round(circle.value() * 100);
+                    if (value === 0) {
+                        circle.setText('0%');
+                    } else {
+                        circle.setText(value+"%");
+                    }
+
                 }
-
-            }
-        });
-
-        bar.animate(@js($rating)/100); 
+            });
+            bar.animate(param.rating/100);
+        })
     </script>
 </div>

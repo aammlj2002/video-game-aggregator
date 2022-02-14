@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 use Illuminate\Support\Str;
 
+use function GuzzleHttp\Promise\each;
+
 class PopularGames extends Component
 {
     public $popularGames = [];
@@ -15,7 +17,7 @@ class PopularGames extends Component
     public function loadPopularGames(){
         $before = Carbon::now()->subMonths(2)->timestamp;
         $after = Carbon::now()->addMonths(2)->timestamp;
-        $popularGamesUnformatted = Cache::remember('popular-game', 100, function () use($before, $after){
+        $popularGamesUnformatted = Cache::remember('popular-game', 10, function () use($before, $after){
             return Http::withHeaders(config("services.igdb"))
             ->withBody(
                 "
@@ -33,7 +35,14 @@ class PopularGames extends Component
             )->post("https://api.igdb.com/v4/games")->json();
         });
         $this->popularGames = $this->formatForView($popularGamesUnformatted);
-        // dd($this->popularGames);
+        collect($this->popularGames)->filter(function($game){
+            return $game['rating'];
+        })->each(function($game){
+            $this->emit('popularGameRating',[
+                "slug"=>$game['slug'],
+                "rating"=>$game['rating']
+            ]);
+        })->toArray();
     }
     
     public function formatForView($games)

@@ -14,4 +14,9 @@
 
         @endforelse
     </div>{{-- end popular game section --}}
+
+    {{-- for rating progress animation --}}
+    @push('scripts')
+    <x-rating-progress event="popularGameRating" />
+    @endpush
 </div>

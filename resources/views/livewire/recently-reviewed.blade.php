@@ -14,4 +14,7 @@
 
         @endforelse
     </div>
+    @push('scripts')
+    <x-rating-progress event="recentlyReviewedGame" />
+    @endpush
 </div>

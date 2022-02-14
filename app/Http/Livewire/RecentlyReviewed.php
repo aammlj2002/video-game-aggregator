@@ -34,13 +34,21 @@ class RecentlyReviewed extends Component
             )->post("https://api.igdb.com/v4/games")->json();
         });
         $this->recentlyReviewed = $this->formatForView($recentlyReviewedUnformatted);
+        collect($this->recentlyReviewed)->filter(function($game){
+            return $game['rating'];
+        })->each(function($game){
+            $this->emit('recentlyReviewedGame',[
+                "slug"=>'recently_'.$game['slug'],
+                "rating"=>$game['rating']
+            ]);
+        })->toArray();
     }
     public function formatForView($game)
     {
         return collect($game)->map(function($game){
             return collect($game)->merge([
                 "coverImage"=>Str::replaceFirst('thumb', 'cover_big' , isset($game['cover']) ? $game['cover']['url'] : asset('img/default.png') ),
-                "rating"=>isset($game['rating']) ? round($game['rating']).'%' : null, 
+                "rating"=>isset($game['rating']) ? round($game['rating']) : null, 
                 "platforms"=>isset($game["platforms"]) ? collect($game['platforms'])->implode("abbreviation", ", ") : null,
                 "summary"=>isset($game['summary']) ? $game['summary'] : null
             ]);
@@ -51,3 +59,4 @@ class RecentlyReviewed extends Component
         return view('livewire.recently-reviewed');
     }
 }
+
