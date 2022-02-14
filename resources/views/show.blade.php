@@ -11,7 +11,7 @@
                 @if ($game["genres"])
                 <div>
                     <span>Genres &dash; </span>
-                    <span>{{$game["genres"]}},</span>
+                    <span>{{$game["genres"]}}</span>
                 </div>
                 @endif
 
@@ -33,26 +33,18 @@
             <div class="flex flex-wrap item-center mt-8">
                 {{-- ratings --}}
                 <div class="flex items-center">
-                    <div class="w-16 h-16 bg-gray-800 rounded-full">
-                        <div class="font-semibold text-xs flex justify-center items-center h-full">
-                            @if ($game["rating"])
-                            {{$game["rating"]}}
-                            @else
-                            0&percnt;
-                            @endif
-                        </div>
+                    <div id="memberRating" class="w-16 h-16 bg-gray-800 rounded-full relative">
+                        @push('scripts')
+                        <x-rating-progress slug="memberRating" :rating="$game['rating']"></x-rating-progress>
+                        @endpush
                     </div>
                     <div class="ml-4 text-xs">Member <br> Score</div>
                 </div>
                 <div class="flex items-center mr-5">
-                    <div class="w-16 h-16 bg-gray-800 rounded-full ml-12">
-                        <div class="font-semibold text-xs flex justify-center items-center h-full">
-                            @if ($game["aggregated_rating"])
-                            {{$game["aggregated_rating"]}}
-                            @else
-                            0&percnt;
-                            @endif
-                        </div>
+                    <div id="criticRating" class="w-16 h-16 bg-gray-800 rounded-full ml-12 relative">
+                        @push('scripts')
+                        <x-rating-progress slug="criticRating" :rating="$game['aggregated_rating']"></x-rating-progress>
+                        @endpush
                     </div>
                     <div class="ml-4 text-xs">Critic <br> Score</div>
                 </div>
@@ -141,5 +133,6 @@
             <x-game-card :game="$game" />
             @endforeach
         </div>
-    </div>{{-- end similar game container --}}
+    </div>
+    {{-- end similar game container --}}
 </x-layout>

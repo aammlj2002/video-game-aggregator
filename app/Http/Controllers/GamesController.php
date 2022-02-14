@@ -18,8 +18,8 @@ class GamesController extends Controller
             "platforms"=>isset($game['platforms']) ? collect($game['platforms'])->implode('abbreviation', ', ') : null,
             "genres"=>isset($game['genres']) ? collect($game['genres'])->implode('name', ', ') : null,
             "companies"=>isset($game['involved_companies']) ? collect($game['involved_companies'])->implode('company.name', ", ") : null,
-            "rating"=>isset($game['rating']) ? round($game['rating']).'%' : null,
-            "aggregated_rating"=>isset($game['aggregated_rating']) ? round($game['aggregated_rating']).'%' : null,
+            "rating"=>isset($game['rating']) ? round($game['rating']) : null,
+            "aggregated_rating"=>isset($game['aggregated_rating']) ? round($game['aggregated_rating']) : null,
             "video"=>isset($game['videos']) ? $game["videos"][0]["video_id"] : null,
             "screenshots"=>isset($game['screenshots'])? collect($game["screenshots"])->pluck("url")->map(function($screenshot){
                 return collect($screenshot)->merge([
@@ -31,7 +31,7 @@ class GamesController extends Controller
                 return collect($game)->merge([
                     "coverImage"=>isset($game["cover"]) ? Str::replaceFirst('thumb', 'cover_big' , isset($game['cover']) ? $game['cover']['url'] : asset('img/default.png') ) : null,
                     "platforms"=>isset($game['platforms']) ? collect($game['platforms'])->implode("abbreviation", ", ") : null,
-                    "rating"=>isset($game['rating']) ? round($game['rating'])."%" : null,
+                    "rating"=>isset($game['rating']) ? round($game['rating']) : null,
                 ]);
             })
         ])->toArray();
@@ -47,6 +47,7 @@ class GamesController extends Controller
             "text/plain"
         )->post("https://api.igdb.com/v4/games")->json();
         $game = $this->formatForView($gameUnformatted[0]);
+        dump($game);
         return view("show", [
             "game"=>$game
         ]);
