@@ -35,7 +35,7 @@
                 <div class="flex items-center">
                     <div id="memberRating" class="w-16 h-16 bg-gray-800 rounded-full relative">
                         @push('scripts')
-                        <x-rating-progress slug="memberRating" :rating="$game['rating']" event="">
+                        <x-rating-progress slug="memberRating" :rating="$game['rating']" :event="null">
                         </x-rating-progress>
                         @endpush
                     </div>
@@ -44,7 +44,7 @@
                 <div class="flex items-center mr-5">
                     <div id="criticRating" class="w-16 h-16 bg-gray-800 rounded-full ml-12 relative">
                         @push('scripts')
-                        <x-rating-progress slug="criticRating" :rating="$game['aggregated_rating']" event="">
+                        <x-rating-progress slug="criticRating" :rating="$game['aggregated_rating']" :event="null">
                         </x-rating-progress>
                         @endpush
                     </div>
@@ -142,7 +142,7 @@
                     <div id="{{$game['slug']}}" class="absolute bottom-0 right-0 w-16 h-16 bg-gray-800 rounded-full"
                         style="right:-20px; bottom:-20px">
                         @push('scripts')
-                        <x-rating-progress :slug="$game['slug']" :rating="$game['rating']" event="">
+                        <x-rating-progress :slug="$game['slug']" :rating="$game['rating']" :event="null">
                         </x-rating-progress>
                         @endpush
                     </div>
