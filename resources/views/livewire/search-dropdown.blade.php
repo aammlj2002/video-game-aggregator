@@ -1,6 +1,6 @@
 <div class="relative">
-    <input wire:model.debounce.300ms="search" type="text"
-        class="bg-gray-800 text-sm w-56 md:w-64 focus:outline-none focus:shadow-outline rounded-full pl-8 px-3 py-1"
+    <input wire:model="search" type="text"
+        class="bg-gray-800 text-sm w-56 md:w-64 focus:outline-none focus:shadow-outline rounded-full px-8 py-1"
         placeholder="Search...">
     <div class="absolute top-0 flex item-center h-full ml-2">
         <svg class="fill-current text-gray-400 w-4" viewBox="0 0 24 24">
@@ -8,7 +8,10 @@
                 d="M16.32 14.9l5.39 5.4a1 1 0 01-1.42 1.4l-5.38-5.38a8 8 0 111.41-1.41zM10 16a6 6 0 100-12 6 6 0 000 12z" />
         </svg>
     </div>
+    <div wire:loading class="spinner top-0 right-0 mr-4 mt-3" style="position: absolute"></div>
+    @if(strlen($search) > 1)
     <div class="absolute z-50 bg-gray-800 text-xs rounded w-64 mt-2">
+        @if (count($searchResults) > 0)
         <ul>
             @foreach ($searchResults as $game)
             <li class="border-b border-gray-700">
@@ -20,5 +23,9 @@
             </li>
             @endforeach
         </ul>
+        @else
+        <div class="p-3">No search result for "{{substr($search, 0, 13).'...'}}"</div>
+        @endif
     </div>
+    @endif
 </div>

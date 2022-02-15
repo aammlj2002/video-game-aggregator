@@ -27,13 +27,13 @@ class GamesController extends Controller
                     "huge"=>Str::replaceFirst('thumb', 'screenshot_huge', $screenshot ),
                 ])->toArray();
             }) : null,
-            "similar_games"=> collect($game['similar_games'])->map(function($game){
+            "similar_games"=>isset($game['similar_games']) ? collect($game['similar_games'])->map(function($game){
                 return collect($game)->merge([
                     "coverImage"=>isset($game["cover"]) ? Str::replaceFirst('thumb', 'cover_big' , isset($game['cover']) ? $game['cover']['url'] : asset('img/default.png') ) : null,
                     "platforms"=>isset($game['platforms']) ? collect($game['platforms'])->implode("abbreviation", ", ") : null,
                     "rating"=>isset($game['rating']) ? round($game['rating']) : null,
                 ]);
-            })
+            }) : null
         ])->toArray();
     }
     public function show($slug)

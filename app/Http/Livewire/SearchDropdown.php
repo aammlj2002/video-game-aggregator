@@ -20,16 +20,18 @@ class SearchDropdown extends Component
     }
     public function render()
     {
-        $gamesUnformatted = Http::withHeaders(config("services.igdb"))
-            ->withBody(
-                "
-                    search \"{$this->search}\";
-                    fields name, cover.url, slug;
-                    limit 5;
-                ",
-                "text/plain"
-            )->post("https://api.igdb.com/v4/games")->json();
-            $this->searchResults=$this->formatForView($gamesUnformatted);
+        if(strlen($this->search) > 1){
+            $gamesUnformatted = Http::withHeaders(config("services.igdb"))
+                ->withBody(
+                    "
+                        search \"{$this->search}\";
+                        fields name, cover.url, slug;
+                        limit 5;
+                    ",
+                    "text/plain"
+                )->post("https://api.igdb.com/v4/games")->json();
+                $this->searchResults=$this->formatForView($gamesUnformatted);
+        }
         return view('livewire.search-dropdown');
     }
 }

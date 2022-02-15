@@ -112,6 +112,7 @@
         </div>
     </div>{{-- end Game detail --}}
 
+    @if ($game['screenshots'])
     {{-- images container --}}
     <div class="images-container border-b border-gray-800 pb-12 my-8">
         <div class="text-blue-500 uppercase tracking-wide font-semibold">Images</div>
@@ -126,8 +127,10 @@
             @endforeach
         </div>
     </div>{{-- end images container --}}
+    @endif
 
     {{-- similar game container --}}
+    @if ($game["similar_games"])
     <div class="similar-game-container pb-4 my-8">
         <div class="text-blue-500 uppercase tracking-wide font-semibold">Similar Game</div>
         <div class="popular-game text-sm grid grid-cols-2 lg:grid-cols-5 xl:grid-cols-6 gap-12">
@@ -138,4 +141,5 @@
         </div>
     </div>
     {{-- end similar game container --}}
+    @endif
 </x-layout>
