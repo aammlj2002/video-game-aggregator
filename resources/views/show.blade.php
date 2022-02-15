@@ -132,28 +132,8 @@
         <div class="text-blue-500 uppercase tracking-wide font-semibold">Similar Game</div>
         <div class="popular-game text-sm grid grid-cols-2 lg:grid-cols-5 xl:grid-cols-6 gap-12">
             @foreach ($game["similar_games"] as $game)
-            <div class="game mt-8">
-                <div class="relative inline-block">
-                    <a href="/games/{{$game['slug']}}">
-                        <img src="{{ $game['coverImage'] }}" alt="game"
-                            class="w-48 hover:opacity-75 trasition ease-in-out duration-150">
-                    </a>
-                    @if (isset($game['rating']))
-                    <div id="{{$game['slug']}}" class="absolute bottom-0 right-0 w-16 h-16 bg-gray-800 rounded-full"
-                        style="right:-20px; bottom:-20px">
-                        @push('scripts')
-                        <x-rating-progress :slug="$game['slug']" :rating="$game['rating']" :event="null">
-                        </x-rating-progress>
-                        @endpush
-                    </div>
-                    @endif
-                </div>
-                <a href="/games/{{$game['slug']}}"
-                    class="block text-base font-semibold leading-light hover:text-gray-400 mt-8">{{$game["name"]}}</a>
-                <div class="text-gray-400 mt-1">
-                    <span>{{$game["platforms"]}}</span>
-                </div>
-            </div>
+
+            <x-game-card :game="$game" bladeComponent="true" />
             @endforeach
         </div>
     </div>

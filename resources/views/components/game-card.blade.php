@@ -9,6 +9,15 @@
             @if (isset($game['rating']))
             <div id="{{$game['slug']}}" class="absolute bottom-0 right-0 w-16 h-16 bg-gray-800 rounded-full"
                 style="right:-20px; bottom:-20px">
+
+                {{-- if component is called from blade file, run this --}}
+                @if ($bladeComponent)
+                @push('scripts')
+                <x-rating-progress :slug="$game['slug']" :rating="$game['rating']" :event="null" />
+                @endpush
+                @endif
+
+
             </div>
             @endif
         </div>

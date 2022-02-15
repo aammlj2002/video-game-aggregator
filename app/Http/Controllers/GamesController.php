@@ -47,7 +47,6 @@ class GamesController extends Controller
             "text/plain"
         )->post("https://api.igdb.com/v4/games")->json();
         $game = $this->formatForView($gameUnformatted[0]);
-        dump($game);
         return view("show", [
             "game"=>$game
         ]);
