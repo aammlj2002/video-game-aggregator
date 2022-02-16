@@ -1,9 +1,5 @@
 module.exports = {
-    content: [
-        "./resources/**/*.blade.php",
-        "./resources/**/*.js",
-        "./resources/**/*.vue",
-    ],
+    purge: ["./app/**/*.php", "./resources/**/*.php"],
     theme: {
         spinner: (theme) => ({
             default: {
