@@ -21,6 +21,7 @@ class GamesController extends Controller
             "rating"=>isset($game['rating']) ? round($game['rating']) : null,
             "aggregated_rating"=>isset($game['aggregated_rating']) ? round($game['aggregated_rating']) : null,
             "video"=>isset($game['videos']) ? $game["videos"][0]["video_id"] : null,
+            "website_link"=>isset($game['websites']) ? $game["websites"][0]["url"] : null,
             "screenshots"=>isset($game['screenshots'])? collect($game["screenshots"])->pluck("url")->map(function($screenshot){
                 return collect($screenshot)->merge([
                     "big"=>Str::replaceFirst('thumb', 'screenshot_big', $screenshot ),
