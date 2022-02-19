@@ -64,7 +64,11 @@ Go and read [IGDB API Docs](https://api-docs.igdb.com/#about)
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](./screenshots/IMG_20220216_133530.jpg)
+![App Screenshot](./screenshots/IMG_20220216_133548.jpg)
+![App Screenshot](./screenshots/IMG_20220216_133631.jpg)
+![App Screenshot](./screenshots/IMG_20220216_133658.jpg)
+![App Screenshot](./screenshots/IMG_20220216_133719.jpg)
 
 ## Roadmap
 
