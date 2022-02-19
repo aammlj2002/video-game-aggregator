@@ -15,7 +15,7 @@ class ComingSoon extends Component
     public function loadComingSoon(){
         $current = Carbon::now()->timestamp;
 
-        $comingSoonUnformatted = Cache::remember('coming-soon', 100, function () use($current){ 
+        $comingSoonUnformatted = Cache::remember('coming-soon', 30, function () use($current){ 
             return Http::withHeaders(config("services.igdb"))
             ->withBody(
                 "

@@ -17,7 +17,7 @@ class PopularGames extends Component
     public function loadPopularGames(){
         $before = Carbon::now()->subMonths(2)->timestamp;
         $after = Carbon::now()->addMonths(2)->timestamp;
-        $popularGamesUnformatted = Cache::remember('popular-game', 10, function () use($before, $after){
+        $popularGamesUnformatted = Cache::remember('popular-game', 30, function () use($before, $after){
             return Http::withHeaders(config("services.igdb"))
             ->withBody(
                 "
