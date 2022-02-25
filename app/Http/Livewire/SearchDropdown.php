@@ -12,15 +12,15 @@ class SearchDropdown extends Component
     public $searchResults = [];
     public function formatForView($games)
     {
-        return collect($games)->map(function($game){
+        return collect($games)->map(function ($game) {
             return collect($game)->merge([
-                "coverImage"=>Str::replaceFirst('thumb', 'cover_small' , isset($game['cover']) ? $game['cover']['url'] : asset('img/default.png') ),
+                "coverImage"=>Str::replaceFirst('thumb', 'cover_small', isset($game['cover']) ? $game['cover']['url'] : asset('img/default.png')),
             ]);
         })->toArray();
     }
     public function render()
     {
-        if(strlen($this->search) > 1){
+        if (strlen($this->search) > 1) {
             $gamesUnformatted = Http::withHeaders(config("services.igdb"))
                 ->withBody(
                     "
@@ -30,7 +30,7 @@ class SearchDropdown extends Component
                     ",
                     "text/plain"
                 )->post("https://api.igdb.com/v4/games")->json();
-                $this->searchResults=$this->formatForView($gamesUnformatted);
+            $this->searchResults=$this->formatForView($gamesUnformatted);
         }
         return view('livewire.search-dropdown');
     }
